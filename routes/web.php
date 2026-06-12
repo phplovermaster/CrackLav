@@ -1,11 +1,20 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\IndexController;
-use App\Http\Controllers\UserController;
 
-Route::get('/', [IndexController::class, 'index'])->name('Index');
-Route::get('/login', [UserController::class, 'showLogin'])->name('login');
-Route::post('/user/login', [UserController::class, 'login'])->name('User.Login.Post');
-Route::get('/register', [UserController::class, 'showRegister'])->name('register');
-Route::post('/user/register', [UserController::class, 'register'])->name('User.Register.Post');
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
