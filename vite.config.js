@@ -14,9 +14,11 @@ export default defineConfig({
             ],
         }),
     ],
+
     server: {
         host: '0.0.0.0',
         port: 5173,
+        strictPort: true,
         hmr: {
             host: 'effective-space-telegram-r759rjxqqqx3vr9-5173.app.github.dev',
             protocol: 'wss',
